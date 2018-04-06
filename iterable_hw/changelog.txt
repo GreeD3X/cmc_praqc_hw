@@ -1,0 +1,4 @@
+Changed:
+1)std::ios_base::failure to std::exception
+2)removed readsome, cause now clear throws std::exception and it is pointless
+to use it now
