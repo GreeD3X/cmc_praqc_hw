@@ -360,9 +360,9 @@ public:
         file->exceptions( std::ifstream::failbit | std::ifstream::badbit | std::ifstream::eofbit);
         //file.exceptions(old_state);
     };
-    FileIterator begin(){ return {file};};
+    FileIterator begin(){ return {file, this->file->is_open()};};
     FileIterator end(){ return {this->file, false};};
-    CFileIterator begin()const{ return {this->file};};
+    CFileIterator begin()const{ return {this->file, this->file->is_open()};};
     CFileIterator end()const{ return {this->file, false};};
     FileFilterIterator<FileIterator> filter(const std::function<bool (int)>& f){return {begin(), end(), f};};
     ~FileI(){file->clear(); file->close(); delete file;}
