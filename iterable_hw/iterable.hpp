@@ -17,6 +17,6 @@ public:
     virtual T2 begin() const = 0;
     virtual T1 end() = 0;
     virtual T2 end() const = 0;
-    virtual T3 filter(const std::function<bool (T)>& f) = 0;
+    virtual T3 filter(const std::function<bool (const T&)>& f) = 0;
 };
 #endif
