@@ -1,6 +1,6 @@
 #include "lex.hpp"
 
-type_of_lex Lex::get_type(){
+/*type_of_lex Lex::get_type(){
     return t_lex;
 }
 
@@ -11,4 +11,10 @@ int Lex::get_value(){
 ostream& operator << (ostream &out, const Lex& l){
     out << '(' << l.get_type() << ',' << l.get_value() << ");";
     return out;
+}*/
+
+
+
+std::pair<std::string, bool> get_lex(){
+    
 }
