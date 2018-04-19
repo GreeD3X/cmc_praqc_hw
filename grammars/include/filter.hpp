@@ -25,6 +25,11 @@ private:
     const std::function<bool (const T&)> pred;
 };
 
-
+template<class iterator_type, class T>
+FilterIterator<iterator_type,T>::FilterIterator(const iterator_type& begin, const iterator_type& end, const std::function<bool (const T&)>& pred): 
+icurrent(begin), iend(end), pred(pred) {
+	while((icurrent != iend) && (!pred(*icurrent)))
+		++icurrent;
+}//cause while in filter.cpp it wouldnt compile
 
 #endif

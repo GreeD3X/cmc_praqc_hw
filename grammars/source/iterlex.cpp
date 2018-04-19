@@ -24,5 +24,5 @@ Lex_seq::const_iterator Lex_seq::begin() const { return {true}; }
 Lex_seq::iterator Lex_seq::end()         { return {false}; }
 Lex_seq::const_iterator Lex_seq::end()   const { return {false}; }
 Lex_seq::fiterator Lex_seq::filter(const std::function<bool (const std::string&)>& f) {	
-	return fiterator(begin(), end(), f);
+	return {begin(), end(), f};
 }

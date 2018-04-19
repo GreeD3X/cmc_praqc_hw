@@ -1,13 +1,7 @@
 #include "filter.hpp"
 
 
-template<class iterator_type, class T>
-FilterIterator<iterator_type,T>::FilterIterator(const iterator_type& begin, const iterator_type& end, const std::function<bool (const T&)>& pred): 
-icurrent(begin), iend(end), pred(pred)
-{
-	while((icurrent != iend) && (!pred(*icurrent)))
-		++icurrent;
-}
+
 
 template<class iterator_type, class T>
 const T FilterIterator<iterator_type,T>::operator*() const {
