@@ -23,6 +23,8 @@ private:
     int v_lex = 0;
 };*/
 
-std::pair<std::string, bool> get_lex();
+enum state { LEX, ID, NUM, SGN};
+
+std::pair<std::string, int> get_lex();
 
 #endif

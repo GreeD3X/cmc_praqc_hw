@@ -1,14 +1,62 @@
-CXX = g++-7
-.PHONY = all clean
+CXX := g++-7
+.PHONY := all clean lex_tests valgrind run rundbg
 
-TARGET = hello
+TARGET := hello
 
-C_F = -g -std=c++17 -Wall -Werror
+dirs := source include
+search_wildcars := $(addsuffix /*.cpp,$(dirs))
+VPATH := $(dirs)
 
-$(TARGET): main.cpp
-	$(CXX) -o $@ main.cpp $(C_F)
+C_F := -g -std=c++17 -Wall -Werror
+L_F :=  
+
+$(TARGET): $(notdir $(patsubst %.cpp,%.o, $(wildcard $(search_wildcars) ) ) )
+	$(CXX) $^ $(L_F) -o $@
+
+%.o: %.cpp
+	$(CXX) -c -MD $(addprefix -I , $(dirs)) $(C_F) $<
 
 clean:
-	[ -e $(TARGET) ] && rm $(TARGET)
+	rm -rf $(TARGET) *.o *.d
 
 all: clean $(TARGET)
+
+lex_test.o: tests/lex_test.cpp
+	$(CXX) -c -MD $(addprefix -I , $(dirs)) $(C_F) $< 
+
+lex_tests: lex.o iterlex.o filter.o lex_test.o
+	$(CXX) $^ $(L_F) -o lex_test
+	for file in $(addsuffix /*.test,tests ); do \
+		echo _________________________;\
+		echo File $$file ;\
+		echo -------------------------;\
+		[ -d $$file ] || cat $$file;\
+		echo -------------------------;\
+		./lex_test < $$file; \
+	done
+
+	rm -rf lex_test
+
+valgrind: $(TARGET)
+	valgrind --tool=memcheck --leak-check=full ./$(TARGET) 2>&1 | less
+
+run: exec
+		
+exec: $(TARGET)
+	for file in $(addsuffix /*.test,$(tests) ); do \
+		./$(TARGET) < $$file; \
+	done
+	./$(TARGET)
+
+rundbg: execdbg
+
+execdbg: $(TAGRET)
+	for file in $(addsuffix /*.test,$(tests) ); do \
+		echo _________________________;\
+		echo File $$file ;\
+		echo -------------------------;\
+		[ -d $$file ] || cat $$file;\
+		echo -------------------------;\
+		./$(TARGET) < $$file; \
+	done
+	./$(TARGET)
