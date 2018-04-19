@@ -77,7 +77,7 @@ public:
     void add_entry(const JournalEntry& a);
     void remove_entry(int what);
     void remove_entries();
-    bool is_empty(){return entries.empty();}
+    bool is_empty() const {return entries.empty();}
 private:
     std::vector<JournalEntry> entries;
 };
@@ -168,15 +168,16 @@ public:
     FileIterator& operator++(){
         if(state){
             try{
-                file->read((char *)(&lastRead), sizeof(lastRead));
+                int toRead;
+                file->read((char *)(&toRead), sizeof(lastRead));
                 state = !(file->eof());
+                lastRead = toRead;
             }
             catch(const std::exception& e){
                 if(file->eof()){
                     state = !(file->eof());
                     return *this;
                 }
-                std::cerr << "Couldnt read in file " << e.what() << std::endl;
                 throw e;
             }
         }
@@ -193,14 +194,7 @@ public:
     FileI(std::string s = "\n"): fileName(s), file(){
         file = std::make_shared<std::ifstream> ();
         file->exceptions( std::ifstream::failbit | std::ifstream::badbit | std::ifstream::eofbit);
-        try {
-            file->open(fileName, std::ios::binary | std::ios::in);
-        } 
-        catch(const std::exception& e){
-            std::cerr << "Couldnt create FileI instance " << e.what() << std::endl;
-	    throw e;
-        }
-        file->exceptions( std::ifstream::failbit | std::ifstream::badbit | std::ifstream::eofbit);
+        file->open(fileName, std::ios::binary | std::ios::in);
     };
     FileIterator begin() { return {file, this->file->is_open()};}
     FileIterator end() { return {this->file, false};}
