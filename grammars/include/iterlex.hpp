@@ -7,7 +7,7 @@
 
 class LexIterator: public std::iterator<std::input_iterator_tag, const std::string, long, const std::string, const std::string>{
 public:
-    LexIterator(bool state = true);
+    LexIterator(int state = 0);
     bool operator!=(LexIterator const& other) const;
     bool operator==(LexIterator const& other) const;
     const std::string operator*() const;
