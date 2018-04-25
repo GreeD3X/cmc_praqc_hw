@@ -1,7 +1,5 @@
 #include "filter.hpp"
-
-
-
+#include <functional>
 
 template<class iterator_type, class T>
 const T FilterIterator<iterator_type,T>::operator*() const {

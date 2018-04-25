@@ -1,11 +1,15 @@
 #include <iostream>
 #include "iterlex.hpp"
 
+#include "iterable.hpp"
+#include "filter.hpp"
+#include "lex.hpp"
+
 LexIterator::LexIterator(int state): state(state), lex("") {
     ++(*this);
 }
 bool LexIterator::operator!=(LexIterator const& other) const { return state != other.state;};
-bool LexIterator::operator==(LexIterator const& other) const { return state == other.state;};
+bool LexIterator::operator==(LexIterator const& other) const { return !(*this != other);};
 const std::string LexIterator::operator*() const {return lex;};
 LexIterator& LexIterator::operator++(){
     if(state == 0){

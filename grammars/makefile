@@ -3,9 +3,10 @@ CXX := g++-7
 
 TARGET := hello
 
-dirs := source include
-search_wildcars := $(addsuffix /*.cpp,$(dirs))
-VPATH := $(dirs)
+src_dirs := source
+inc_dirs := include
+search_wildcars := $(addsuffix /*.cpp,$(src_dirs))
+VPATH := $(src_dirs)
 
 C_F := -g -std=c++17 -Wall -Werror
 L_F :=  
@@ -14,7 +15,7 @@ $(TARGET): $(notdir $(patsubst %.cpp,%.o, $(wildcard $(search_wildcars) ) ) )
 	$(CXX) $^ $(L_F) -o $@
 
 %.o: %.cpp
-	$(CXX) -c -MD $(addprefix -I , $(dirs)) $(C_F) $<
+	$(CXX) -c -MD $(addprefix -I , $(inc_dirs)) $(C_F) $<
 
 clean:
 	rm -rf $(TARGET) *.o *.d
@@ -22,7 +23,7 @@ clean:
 all: clean $(TARGET)
 
 lex_test.o: tests/lex_test.cpp
-	$(CXX) -c -MD $(addprefix -I , $(dirs)) $(C_F) $< 
+	$(CXX) -c -MD $(addprefix -I , $(inc_dirs)) $(C_F) $< 
 
 lex_tests: lex.o iterlex.o filter.o lex_test.o
 	$(CXX) $^ $(L_F) -o lex_test

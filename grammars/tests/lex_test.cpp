@@ -1,5 +1,7 @@
 #include <iostream>
+#include "filter.hpp"
 #include "iterlex.hpp"
+
 
 int main(){
 	std::cout << "Testing Lexeme functions" << std::endl;

@@ -2,7 +2,6 @@
 #define filterHPP
 
 #include <functional>
-#include "iterable.hpp"
 
 template<class iterator_type, class T>
 class FilterIterator: public std::iterator<std::input_iterator_tag, const T, long, const T, const T>{
@@ -26,7 +25,7 @@ private:
 };
 
 template<class iterator_type, class T>
-FilterIterator<iterator_type,T>::FilterIterator(const iterator_type& begin, const iterator_type& end, const std::function<bool (const T&)>& pred): 
+FilterIterator<iterator_type,T>::FilterIterator(iterator_type const& begin, iterator_type const& end, std::function<bool (T const&)> const& pred): 
 icurrent(begin), iend(end), pred(pred) {
 	while((icurrent != iend) && (!pred(*icurrent)))
 		++icurrent;
