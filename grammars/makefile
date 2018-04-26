@@ -25,7 +25,7 @@ all: clean $(TARGET)
 lex_test.o: tests/lex_test.cpp
 	$(CXX) -c -MD $(addprefix -I , $(inc_dirs)) $(C_F) $< 
 
-lex_tests: lex.o iterlex.o filter.o lex_test.o
+lex_tests: lex.o iterlex.o lex_test.o
 	$(CXX) $^ $(L_F) -o lex_test
 	for file in $(addsuffix /*.test,tests ); do \
 		echo _________________________;\
