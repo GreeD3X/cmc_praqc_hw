@@ -1,10 +1,9 @@
 #ifndef SYNTAXHPP
 #define SYNTAXHPP
 
-#include <functional>
-#include "iterlex.hpp"
 #include <stack>
 #include <vector>
+#include "iterlex.hpp"
 
 class Parser {
     Lex_seq::iterator cur_pos;
@@ -29,4 +28,17 @@ class Parser {
 
 };
 
+class Syntax_exception : public Exception {
+  public :
+    Syntax_exception (const std::string &what, const std::pair<int,int>& pos) : Exception(what, pos.first, pos.second) { this->what = "SYNTAX:" + what; }
+};
+
+class Semantic_exception : public Exception { 
+  public :
+    Semantic_exception (const std::string &what, const std::pair<int,int>& pos) : Exception(what, pos.first, pos.second) { this->what = "SENANTICS:" + what; }
+};
 #endif
+
+
+
+

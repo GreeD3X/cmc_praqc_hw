@@ -11,7 +11,8 @@ public:
     bool operator!=(LexIterator const& other) const;
     bool operator==(LexIterator const& other) const;
     const Lex operator*() const;
-    LexIterator& operator++();  
+    LexIterator& operator++();
+    std::pair<int,int> get_pos(){return {cur_str, cur_char};}  
 private: 
 	char gc(std::istream& is = std::cin) const {return is.get();}
 	void uc(std::istream& is = std::cin) const {is.unget();}

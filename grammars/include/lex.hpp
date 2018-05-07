@@ -28,14 +28,11 @@ enum lex_type {
     //POLIZ_GO, 
     //POLIZ_FGO
 };
+
 struct Lex{
 	Lex(std::string s = "", lex_type lt = LEX_EOF, Type t = Type()): lex(s), t_lex(lt), type(t){};
-	std::string lex = "";
-    lex_type t_lex = LEX_EOF;
-    Type type = Type();
+	std::string lex;
+    lex_type t_lex;
+    Type type;
 };/**/
-
-
-enum state { LEX, ID, NUM, SGN};
-
 #endif

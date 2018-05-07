@@ -8,9 +8,10 @@
 LexIterator::LexIterator(lex_type st): lex("", st) {
     ++(*this);
 }
-bool LexIterator::operator!=(LexIterator const& other) const { return lex.t_lex != other.lex.t_lex;};
-bool LexIterator::operator==(LexIterator const& other) const { return !(*this != other);};
-const Lex LexIterator::operator*() const {return lex;};
+bool LexIterator::operator!=(LexIterator const& other) const { return lex.t_lex != other.lex.t_lex;}
+bool LexIterator::operator==(LexIterator const& other) const { return !(*this != other);}
+const Lex LexIterator::operator*() const {return lex;}
+
 LexIterator& LexIterator::operator++(){
     if(lex.t_lex != LEX_EOF){
         auto lexc = get_lex();
@@ -21,7 +22,9 @@ LexIterator& LexIterator::operator++(){
     }
     return *this;
 }
+
 Lex LexIterator::get_lex() {
+	enum state { LEX, ID, NUM, SGN};
     char c = gc();
     ++cur_char;
     std::string lex("");
