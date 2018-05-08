@@ -8,16 +8,16 @@
 LexIterator::LexIterator(lex_type st): lex("", st) {
     ++(*this);
 }
-bool LexIterator::operator!=(LexIterator const& other) const { return lex.t_lex != other.lex.t_lex;}
+bool LexIterator::operator!=(LexIterator const& other) const { return lex.get_lt() != other.lex.get_lt();}
 bool LexIterator::operator==(LexIterator const& other) const { return !(*this != other);}
 const Lex LexIterator::operator*() const {return lex;}
 
 LexIterator& LexIterator::operator++(){
-    if(lex.t_lex != LEX_EOF){
+    if(lex.get_lt() != LEX_EOF){
         auto lexc = get_lex();
-        if(lexc.t_lex == LEX_NULL){
-		    throw "Bad lex";
-        }
+        /*if(lexc.get_lt() == LEX_NULL){
+		    throw Lex_exception("Bad lex: ", {cur_str, cur_char});
+        }*/
         lex = lexc;
     }
     return *this;
@@ -68,8 +68,8 @@ Lex LexIterator::get_lex() {
 					} else{
 						std::string er = "Unexpected char: '";
 						er += c;
-						er += "' while triyng to parse ID: " + ' ' + std::to_string(cur_str) + ':' + std::to_string(cur_char); 
-						throw er;
+						er += "' while triyng to parse ID: "; 
+						throw Lex_exception(er, {cur_str, cur_char});
 					}
 				}
                 break;
@@ -84,22 +84,30 @@ Lex LexIterator::get_lex() {
 				} else{
 					std::string er = "Unexpected char: '";
 					er += c;
-					er += "' while triyng to parse number: " + ' ' + std::to_string(cur_str) + ':' + std::to_string(cur_char); 
-					throw er;
+					er += "' while triyng to parse number: "; 
+					throw Lex_exception(er, {cur_str, cur_char});
 				}
                 break;
             case SGN:
                 if (isSign(c)){
                     lex += c;
-                    return {lex, LEX_OP};
+                    switch(c){
+							case '[':
+								return {lex, LEX_LBR};
+							case ']':
+								return {lex, LEX_RBR};
+							case '=':
+								return {lex, LEX_ASS};
+					}
+                    
                 }
                 else if (c == EOF)
                     return {"", LEX_EOF};
                 else{
 					std::string er = "Unknown char: '";
 					er += c;
-					er += lex + "'" + ' ' + std::to_string(cur_str) + ':' + std::to_string(cur_char); 
-					throw er;
+					er += lex + "'"; 
+					throw Lex_exception(er, {cur_str, cur_char});
 				}
                 break;
         }//end switch

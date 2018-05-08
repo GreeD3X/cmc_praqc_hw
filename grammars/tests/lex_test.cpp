@@ -8,10 +8,10 @@ int main(){
 	try{
 		Lex_seq lex;
 		for(auto x: lex){
-			std::cout << x.lex << std::endl;
+			std::cout << x.get_name() << std::endl;
 		}
 	}
-	catch(const std::string& s){
-		std::cout << "Caught: " << s << std::endl;
+	catch(const Lex_exception& e){
+		std::cout << "Caught: " << e.what() << std::endl;
 	}
 }

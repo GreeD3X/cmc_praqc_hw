@@ -27,7 +27,7 @@ lex_test.o: tests/lex_test.cpp
 
 lex_tests: lex.o iterlex.o lex_test.o
 	$(CXX) $^ $(L_F) -o lex_test
-	for file in $(addsuffix /*.test,tests ); do \
+	for file in $(addsuffix /lex*.test,tests ); do \
 		echo _________________________;\
 		echo File $$file ;\
 		echo -------------------------;\
@@ -37,6 +37,21 @@ lex_tests: lex.o iterlex.o lex_test.o
 	done
 
 	rm -rf lex_test
+
+rec_test.o: tests/rec_test.cpp
+	$(CXX) -c -MD $(addprefix -I , $(inc_dirs)) $(C_F) $< 
+
+rec_tests: rec_test.o $(notdir $(patsubst %.cpp,%.o, $(wildcard $(search_wildcars) ) ) )	
+	$(CXX) $^ $(L_F) -o lec_test
+	for file in $(addsuffix /rec*.test,tests ); do \
+		echo _________________________;\
+		echo File $$file ;\
+		echo -------------------------;\
+		[ -d $$file ] || cat $$file;\
+		echo -------------------------;\
+		./lex_test < $$file; \
+	done
+
 
 valgrind: $(TARGET)
 	valgrind --tool=memcheck --leak-check=full ./$(TARGET) 2>&1 | less

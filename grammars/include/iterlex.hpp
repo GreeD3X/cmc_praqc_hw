@@ -1,5 +1,5 @@
-#ifndef iterlexHPP
-#define iterlexHPP
+#ifndef ITERLEXHPP
+#define ITERLEXHPP
 #include<functional>
 #include "iterable.hpp"
 #include "filter.hpp"
@@ -30,9 +30,9 @@ class Lex_seq: public Iterable<
     FilterIterator<LexIterator, Lex>, 
     Lex>{
 public:
-    iterator begin()      ;
+    iterator begin();
     const_iterator begin() const;
-    iterator end()        ;
+    iterator end();
     const_iterator end()   const;
     fiterator filter(const std::function<bool (const Lex&)>& f);
 };
