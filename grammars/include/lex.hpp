@@ -6,7 +6,7 @@ enum types {
     TYPE_NULL,
     TYPE_INT,
     TYPE_STRING,
-    TYPE_ARR
+    TYPE_ASS
 };
 
 struct Type {
@@ -17,26 +17,7 @@ struct Type {
     bool operator != (const Type &otype) const { return !(*this == otype); }
 };
 
-std::ostream& operator << (std::ostream& str, Type type)
-{
-    if (type.arr_dim != 0) {
-        str << type.arr_dim << " dimensional array of ";
-    }
-    switch (type.type) {
-        case TYPE_NULL :
-            str << "TYPE_NULL";
-            return str;
-        case TYPE_INT :
-            str << "integer";
-            return str;
-        case TYPE_STRING :
-            str << "string";
-            return str;
-		default :
-			str << type.type;
-			return str;
-    }
-}
+std::ostream& operator << (std::ostream& out, Type type);
 
 enum lex_type { 
     LEX_EOF, 
@@ -45,7 +26,8 @@ enum lex_type {
     LEX_RBR,
     LEX_NUM, 
     LEX_ID, 
-    LEX_NULL
+    LEX_NULL,
+    LEX_EXP
     //POLIZ_LABEL, 
     //POLIZ_ADDRESS, 
     //POLIZ_GO, 
@@ -59,7 +41,7 @@ public:
     std::string get_name() const { return lex; }
     Type get_type() const { return type; }
     void set_type(Type new_type) { type = new_type; }
-    friend std::ostream& operator << (std::ostream& out, Lex lex){ out << lex; return out;};
+    friend std::ostream& operator << (std::ostream& out, const Lex& lex){ out << lex.lex; return out;};
 private:
     lex_type lex_t;
 	std::string lex;

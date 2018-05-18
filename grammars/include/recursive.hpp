@@ -3,10 +3,11 @@
 
 #include <stack>
 #include <list>
+#include <vector>
 #include "iterlex.hpp"
 
 class Parser {
-public :
+public:
     Parser (Lex_seq& lex_seq): cur_pos(lex_seq.begin()) {}
     void parse ();
     void print_poliz ();
@@ -15,17 +16,14 @@ private:
     Lex_seq::iterator cur_pos;
     Lex cur_lex;
     lex_type cur_type;
-    std::stack<Type> st_type;
-    std::list<Lex> poliz;
+    std::stack<Type>st_type; 
+    std::vector<Lex> poliz;
     void get_lex();
     void S ();
     void Expr ();
-    void Ass_expr ();
     void Index_expr ();
     void Index();
-    void Mult_expr1 ();
-    void Id ();
-    void check ();
+    void check_id ();
     void check_op ();
 };
 

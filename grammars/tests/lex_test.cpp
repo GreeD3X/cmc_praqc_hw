@@ -8,7 +8,7 @@ int main(){
 	try{
 		Lex_seq lex;
 		for(auto x: lex){
-			std::cout << x.get_name() << std::endl;
+			std::cout << x.get_name() << ' '<< x.get_lt() << std::endl;
 		}
 	}
 	catch(const Lex_exception& e){

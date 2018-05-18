@@ -5,9 +5,10 @@
 #include "filter.hpp"
 #include "lex.hpp"
 
-LexIterator::LexIterator(lex_type st): lex("", st) {
+LexIterator::LexIterator(lex_type st): lex(st, "") {
     ++(*this);
 }
+
 bool LexIterator::operator!=(LexIterator const& other) const { return lex.get_lt() != other.lex.get_lt();}
 bool LexIterator::operator==(LexIterator const& other) const { return !(*this != other);}
 const Lex LexIterator::operator*() const {return lex;}
@@ -64,7 +65,7 @@ Lex LexIterator::get_lex() {
 					if ( isDelim(c) || isSign(c) || c == EOF){
 						uc();//return c to stream
 						--cur_char;
-						return {lex, LEX_ID};
+						return {LEX_ID, lex};
 					} else{
 						std::string er = "Unexpected char: '";
 						er += c;
@@ -80,7 +81,7 @@ Lex LexIterator::get_lex() {
                 }
                 else if (isDelim(c) || isSign(c) || c == EOF){
 					uc();
-                    return {lex, LEX_NUM};
+                    return {LEX_NUM, lex};
 				} else{
 					std::string er = "Unexpected char: '";
 					er += c;
@@ -93,16 +94,16 @@ Lex LexIterator::get_lex() {
                     lex += c;
                     switch(c){
 							case '[':
-								return {lex, LEX_LBR};
+								return {LEX_LBR, lex};
 							case ']':
-								return {lex, LEX_RBR};
+								return {LEX_RBR, lex};
 							case '=':
-								return {lex, LEX_ASS};
+								return {LEX_ASS, lex};
 					}
                     
                 }
                 else if (c == EOF)
-                    return {"", LEX_EOF};
+                    return {LEX_EOF, ""};
                 else{
 					std::string er = "Unknown char: '";
 					er += c;
